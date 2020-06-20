@@ -1,6 +1,6 @@
 import React from "react";
 import Menu from "./index";
-import { cleanup, render, RenderResult } from "@testing-library/react";
+import { render, RenderResult } from "@testing-library/react";
 
 describe("Layout", () => {
   let component: RenderResult;
@@ -11,8 +11,7 @@ describe("Layout", () => {
       </Menu>
     );
   });
-  afterEach(cleanup);
-
+ 
   test("container is in DOM", () => {
     expect(component.getByTestId("menu-container")).toBeInTheDocument();
   });

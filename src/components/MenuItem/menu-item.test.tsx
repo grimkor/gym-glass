@@ -7,7 +7,6 @@ describe("Layout", () => {
   beforeEach(() => {
     component = render(<MenuItem />);
   });
-  afterEach(cleanup);
 
   test("container is in DOM", () => {
     expect(component.getByTestId("menu-item")).toBeInTheDocument();
