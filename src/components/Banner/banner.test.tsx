@@ -12,7 +12,7 @@ describe("Layout", () => {
     expect(component.getByTestId("banner-container")).toBeInTheDocument();
   });
 
-  test("component has a banner item", () => {
+  test("component has a clock", () => {
     expect(component.getByTestId("clock")).toBeInTheDocument();
   });
 });
