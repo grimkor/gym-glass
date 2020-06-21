@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import Timer from "./Timer";
 import { Provider } from "react-redux";
-import { store } from "../../app/store";
+import { store } from "../../../../app/store";
 
 describe("Timer component", () => {
   beforeEach(() => {

@@ -4,7 +4,7 @@ import GlobalStyles from "./components/GlobalStyles";
 import Menu from "./components/Menu";
 import Banner from "./components/Banner";
 import Content from "./components/Content";
-import Timer from "./features/timer/Timer";
+import Timer from "./features/timer/components/Timer/Timer";
 
 function App() {
   return (

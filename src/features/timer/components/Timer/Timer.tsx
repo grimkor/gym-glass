@@ -7,10 +7,11 @@ import {
   startTimer,
   stopTimer,
   updateTime,
-} from "./timerSlice";
+} from "../../timerSlice";
 import moment from "moment";
-import Counter from "./components/Counter";
-import { TimeTypes } from "./components/Counter/counter";
+import Counter from "../Counter";
+import { TimeTypes } from "../Counter/counter";
+import { Button, ButtonContainer, Container, TimerContainer } from "./styled";
 
 const Timer: FC = () => {
   const dispatch = useDispatch();
@@ -41,21 +42,25 @@ const Timer: FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <Counter
-        type={TimeTypes.minutes}
-        value={moment.duration(time).minutes()}
-        onChange={handleUpdate(TimeTypes.minutes)}
-      />
-      <Counter
-        type={TimeTypes.seconds}
-        value={moment.duration(time).seconds()}
-        onChange={handleUpdate(TimeTypes.seconds)}
-      />
-      <button onClick={handleStart}>Start!</button>
-      <button onClick={() => dispatch(stopTimer())}>Stop!</button>
-      <button onClick={() => dispatch(resetTimer())}>Reset!</button>
-    </div>
+    <Container>
+      <TimerContainer>
+        <Counter
+          type={TimeTypes.minutes}
+          value={moment.duration(time).minutes()}
+          onChange={handleUpdate(TimeTypes.minutes)}
+        />
+        <Counter
+          type={TimeTypes.seconds}
+          value={moment.duration(time).seconds()}
+          onChange={handleUpdate(TimeTypes.seconds)}
+        />
+      </TimerContainer>
+      <ButtonContainer>
+        <Button onClick={handleStart}>Start!</Button>
+        <Button onClick={() => dispatch(stopTimer())}>Stop!</Button>
+        <Button onClick={() => dispatch(resetTimer())}>Reset!</Button>
+      </ButtonContainer>
+    </Container>
   );
 };
 
