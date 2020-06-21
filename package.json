@@ -29,7 +29,18 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "plugin:testing-library/recommended",
+      "plugin:testing-library/react",
+      "plugin:testing-library/react"
+    ],
+    "plugins": [
+      "testing-library"
+    ],
+    "rules": {
+      "testing-library/no-manual-cleanup": "error"
+    }
   },
   "browserslist": {
     "production": [
@@ -44,11 +55,6 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^3.3.0",
-    "@typescript-eslint/parser": "^3.3.0",
-    "eslint": "^7.3.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-testing-library": "^3.3.1",
     "prettier": "^2.0.5"
   }
