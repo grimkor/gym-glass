@@ -1,8 +1,14 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import Timer from "./Timer";
 import { Provider } from "react-redux";
 import { store } from "../../../../app/store";
+import userEvent from "@testing-library/user-event";
+import { Simulate } from "react-dom/test-utils";
 
 describe("Timer component", () => {
   beforeEach(() => {
@@ -29,8 +35,13 @@ describe("Timer component", () => {
     expect(screen.getByRole("button", { name: /start/i })).toBeInTheDocument();
   });
 
-  test("has a reset button", () => {
-    expect(screen.getByRole("button", { name: /reset/i })).toBeInTheDocument();
+  test("pressing start shows the stop button", async () => {
+    userEvent.type(screen.getByRole("spinbutton", { name: /minutes/i }), "1");
+    userEvent.click(screen.getByRole("button", { name: /start/i }));
+    expect(screen.getByRole("button", { name: /stop/i })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /start/i })
+    ).not.toBeInTheDocument();
   });
 
   test("has a stop button", () => {

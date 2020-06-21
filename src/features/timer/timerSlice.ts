@@ -23,9 +23,11 @@ export const timerSlice = createSlice({
     },
     updateTime: (state, action: PayloadAction<number>) => {
       state.time = action.payload;
+      if (action.payload === 0) {
+        state.running = false;
+      }
     },
     stopTimer: (state) => {
-      console.log("STOPING NOW");
       state.running = false;
       clearInterval(TIMER);
     },
@@ -41,12 +43,12 @@ export const startTimer = (duration: number): AppThunk => (dispatch) => {
   let remaining = duration;
   dispatch(beginTimer(remaining));
   TIMER = setInterval(() => {
+    remaining = remaining - 1000;
     if (remaining > 0) {
-      remaining = remaining - 1000;
       dispatch(updateTime(remaining));
     } else {
       clearInterval(TIMER);
-      dispatch(stopTimer());
+      dispatch(updateTime(0));
     }
   }, 1000);
 };

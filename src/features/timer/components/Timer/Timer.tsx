@@ -56,8 +56,11 @@ const Timer: FC = () => {
         />
       </TimerContainer>
       <ButtonContainer>
-        <Button onClick={handleStart}>Start!</Button>
-        <Button onClick={() => dispatch(stopTimer())}>Stop!</Button>
+        {timerRunning ? (
+          <Button onClick={() => dispatch(stopTimer())}>Stop!</Button>
+        ) : (
+          <Button onClick={handleStart}>Start!</Button>
+        )}
         <Button onClick={() => dispatch(resetTimer())}>Reset!</Button>
       </ButtonContainer>
     </Container>
