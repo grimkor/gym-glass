@@ -32,11 +32,12 @@
     "extends": [
       "react-app",
       "plugin:testing-library/recommended",
-      "plugin:testing-library/react",
+      "plugin:jest-dom/recommended",
       "plugin:testing-library/react"
     ],
     "plugins": [
-      "testing-library"
+      "testing-library",
+      "jest-dom"
     ],
     "rules": {
       "testing-library/no-manual-cleanup": "error"
@@ -55,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-jest-dom": "^3.0.1",
     "eslint-plugin-testing-library": "^3.3.1",
     "prettier": "^2.0.5"
   }

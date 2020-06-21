@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from "react";
+import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetTimer,
@@ -9,11 +9,8 @@ import {
   updateTime,
 } from "./timerSlice";
 import moment from "moment";
-
-enum TimeTypes {
-  "minutes" = "minutes",
-  "seconds" = "seconds",
-}
+import Counter from "./components/Counter";
+import { TimeTypes } from "./components/Counter/counter";
 
 const Timer: FC = () => {
   const dispatch = useDispatch();
@@ -26,9 +23,7 @@ const Timer: FC = () => {
     }
   };
 
-  const handleUpdate = (type: TimeTypes) => (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleUpdate = (type: TimeTypes) => (value: number) => {
     if (!timerRunning) {
       const duration = moment.duration(time);
       dispatch(
@@ -37,7 +32,7 @@ const Timer: FC = () => {
             .duration({
               minutes: duration.minutes(),
               seconds: duration.seconds(),
-              [type]: e.target.value,
+              [type]: value,
             })
             .asMilliseconds()
         )
@@ -45,16 +40,15 @@ const Timer: FC = () => {
     }
   };
 
-  console.log();
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <span>timer is running: {timerRunning ? "RUNNING" : "STOPPED"}</span>
-      <span>remaining time: {time}</span>
-      <input
+      <Counter
+        type={TimeTypes.minutes}
         value={moment.duration(time).minutes()}
         onChange={handleUpdate(TimeTypes.minutes)}
       />
-      <input
+      <Counter
+        type={TimeTypes.seconds}
         value={moment.duration(time).seconds()}
         onChange={handleUpdate(TimeTypes.seconds)}
       />
