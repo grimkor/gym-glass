@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../../app/store";
+import TimerController from "./components/Timer/TimerController";
 
 interface TimerState {
   running: boolean;
@@ -11,15 +12,15 @@ const initialState: TimerState = {
   time: 0,
 };
 
-let TIMER: number | undefined;
+const Timer = new TimerController();
 
 export const timerSlice = createSlice({
   name: "timer",
   initialState,
   reducers: {
-    beginTimer: (state, action: PayloadAction<number | undefined>) => {
+    beginTimer: (state, action: PayloadAction<number>) => {
       state.running = true;
-      state.time = action.payload ?? state.time;
+      state.time = action.payload;
     },
     updateTime: (state, action: PayloadAction<number>) => {
       state.time = action.payload;
@@ -29,28 +30,26 @@ export const timerSlice = createSlice({
     },
     stopTimer: (state) => {
       state.running = false;
-      clearInterval(TIMER);
+      Timer.stop();
     },
     resetTimer: (state) => {
       state.time = initialState.time;
       state.running = initialState.running;
-      clearInterval(TIMER);
+      Timer.stop();
     },
   },
 });
 
 export const startTimer = (duration: number): AppThunk => (dispatch) => {
-  let remaining = duration;
-  dispatch(beginTimer(remaining));
-  TIMER = setInterval(() => {
-    remaining = remaining - 1000;
+  dispatch(beginTimer(duration));
+  Timer.start(duration, (remaining) => {
     if (remaining > 0) {
       dispatch(updateTime(remaining));
     } else {
-      clearInterval(TIMER);
+      Timer.stop();
       dispatch(updateTime(0));
     }
-  }, 1000);
+  });
 };
 
 export const selectTime = (state: RootState) => state.timer.time;

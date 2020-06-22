@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Timer from "./Timer";
 import { Provider } from "react-redux";
 import { store } from "../../../../app/store";
 import userEvent from "@testing-library/user-event";
-import { Simulate } from "react-dom/test-utils";
 
 describe("Timer component", () => {
   beforeEach(() => {
