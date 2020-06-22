@@ -27,6 +27,7 @@ export default class TimerController {
         this.lastUpdate = this.remainingTime;
       }
       this.remainingTime = this.remainingTime - (Date.now() - this.lastLoop);
+      console.log(this.remainingTime);
       this.lastLoop = Date.now();
     });
   }
