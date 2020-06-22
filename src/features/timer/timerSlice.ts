@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../../app/store";
 import TimerController from "./components/Timer/TimerController";
+import { expiring, expired } from "./components/Timer/countdown";
+import moment from "moment";
+
+const Timer = new TimerController();
 
 interface TimerState {
   running: boolean;
@@ -12,7 +16,16 @@ const initialState: TimerState = {
   time: 0,
 };
 
-const Timer = new TimerController();
+const timeToStringFormat = (time: number) => moment.utc(time).format("mm:ss");
+const timeHasExpired = (time: number) => timeToStringFormat(time) === "00:00";
+
+const playSound = (time: number) => {
+  const expiringSound = ["00:03", "00:02", "00:01"];
+  const formatted = timeToStringFormat(time);
+  if (expiringSound.includes(formatted)) {
+    expiring.play();
+  }
+};
 
 export const timerSlice = createSlice({
   name: "timer",
@@ -23,8 +36,12 @@ export const timerSlice = createSlice({
       state.time = action.payload;
     },
     updateTime: (state, action: PayloadAction<number>) => {
+      if (state.running) {
+        playSound(action.payload);
+      }
       state.time = action.payload;
-      if (action.payload === 0) {
+      if (timeHasExpired(action.payload)) {
+        expired.play();
         state.running = false;
       }
     },
@@ -42,8 +59,9 @@ export const timerSlice = createSlice({
 
 export const startTimer = (duration: number): AppThunk => (dispatch) => {
   dispatch(beginTimer(duration));
+
   Timer.start(duration, (remaining) => {
-    if (remaining > 0) {
+    if (!timeHasExpired(remaining)) {
       dispatch(updateTime(remaining));
     } else {
       Timer.stop();
